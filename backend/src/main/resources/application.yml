@@ -1,0 +1,55 @@
+# ============================================================================
+#  Configuração do servidor. Valores sensíveis vêm de variáveis de ambiente
+#  (veja .env.example); NUNCA coloque senhas reais neste arquivo.
+# ============================================================================
+server:
+  port: 8080
+  # Não revela versão/tecnologia nem stack trace em erros.
+  server-header: ""
+  error:
+    include-message: never
+    include-stacktrace: never
+    include-binding-errors: never
+  tomcat:
+    max-http-form-post-size: 64KB
+    max-swallow-size: 64KB
+  forward-headers-strategy: none     # o IP é tratado por nucleo/IpCliente (confiável só com app.confiar-proxy)
+
+spring:
+  application:
+    name: cafeteria-api
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/cafeteria_db}
+    username: ${DB_USUARIO:cafeteria_app}      # papel de privilégio mínimo (banco/papeis.sql)
+    password: ${DB_SENHA:}
+    hikari:
+      maximum-pool-size: 10
+      connection-timeout: 5000
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true         # contrato estrito: campo inesperado = erro
+    serialization:
+      write-dates-as-timestamps: false
+    time-zone: America/Sao_Paulo
+  mvc:
+    throw-exception-if-no-handler-found: true
+  web:
+    resources:
+      add-mappings: false                      # a API não serve arquivos; o nginx serve o site
+
+app:
+  confiar-proxy: ${APP_CONFIAR_PROXY:false}    # true atrás do nginx do docker-compose
+  cookie-seguro: ${APP_COOKIE_SEGURO:false}    # true em produção com HTTPS
+  origens-permitidas: ${APP_ORIGENS_PERMITIDAS:}
+  sessao-inatividade-min: 30
+  sessao-duracao-horas: 12
+  login-max-falhas: 5
+  login-bloqueio-min: 5
+  limite-geral-por-min: 240
+  limite-escrita-por-min: 60
+  limite-login-por-min: 10
+
+logging:
+  level:
+    root: INFO
+    br.edu.fatec.cafeteria: INFO

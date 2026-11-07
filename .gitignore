@@ -1,0 +1,30 @@
+node_modules
+dist
+.env
+*.log
+
+# Variáveis de ambiente e segredos
+.env
+.env.*
+!.env.example
+
+# Java / Maven
+target/
+*.class
+
+# Logs
+*.log
+
+# IDEs
+.idea/
+*.iml
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Node.js (caso exista frontend)
+node_modules/
+
+# Arquivos temporários
+*.tmp

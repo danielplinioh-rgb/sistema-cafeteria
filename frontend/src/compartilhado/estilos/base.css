@@ -1,0 +1,300 @@
+/* Reset leve + componentes comuns aos dois módulos (botões, campos, cartões, janelas, avisos). */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+html {
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  margin: 0;
+  background: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: var(--fonte-corpo);
+  font-size: 16px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3 {
+  font-family: var(--fonte-titulo);
+  margin: 0;
+  line-height: 1.2;
+}
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--cor-primaria) 55%, white);
+  outline-offset: 2px;
+}
+.so-leitor {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- botões ---------- */
+.botao {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--e2);
+  min-height: 44px;
+  padding: 0 var(--e5);
+  border: 0;
+  border-radius: 999px;
+  background: var(--cor-primaria);
+  color: var(--cor-sobre-primaria);
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--cor-primaria) 38%, transparent);
+  transition: transform 0.12s, background 0.15s, box-shadow 0.15s;
+}
+.botao:hover:not(:disabled) {
+  background: var(--cor-primaria-escura);
+}
+.botao:active:not(:disabled) {
+  transform: scale(0.98);
+}
+.botao:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+.botao--secundario {
+  background: var(--cor-primaria-suave);
+  color: var(--cor-primaria-escura);
+  box-shadow: none;
+}
+.botao--secundario:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor-primaria-suave) 70%, var(--cor-primaria));
+}
+.botao--contorno {
+  background: transparent;
+  color: var(--cor-texto);
+  border: 2px solid var(--cor-borda);
+  box-shadow: none;
+}
+.botao--contorno:hover:not(:disabled) {
+  background: var(--cor-superficie-2);
+}
+.botao--perigo {
+  background: var(--cor-perigo);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--cor-perigo) 35%, transparent);
+}
+.botao--perigo:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor-perigo) 85%, black);
+}
+.botao--sucesso {
+  background: var(--cor-sucesso);
+  box-shadow: 0 4px 14px color-mix(in srgb, var(--cor-sucesso) 35%, transparent);
+}
+.botao--sucesso:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--cor-sucesso) 85%, black);
+}
+.botao--bloco {
+  width: 100%;
+}
+.botao--pequeno {
+  min-height: 36px;
+  padding: 0 var(--e4);
+  font-size: 0.9rem;
+}
+.botao-icone {
+  display: inline-grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  background: var(--cor-primaria-suave);
+  color: var(--cor-primaria-escura);
+  cursor: pointer;
+}
+.botao-icone:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ---------- formulários ---------- */
+.campo {
+  display: grid;
+  gap: var(--e1);
+  margin-bottom: var(--e4);
+}
+.campo > label,
+.campo > .rotulo {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--cor-texto-suave);
+}
+.entrada {
+  width: 100%;
+  min-height: 46px;
+  padding: 0 var(--e4);
+  border: 2px solid var(--cor-borda);
+  border-radius: var(--raio-pequeno);
+  background: var(--cor-superficie);
+}
+textarea.entrada {
+  padding: var(--e3) var(--e4);
+  min-height: 90px;
+  resize: vertical;
+}
+.entrada:focus {
+  border-color: var(--cor-primaria);
+  outline: none;
+}
+.campo__erro {
+  color: var(--cor-perigo);
+  font-size: 0.85rem;
+}
+
+/* ---------- peças de interface ---------- */
+.cartao {
+  background: var(--cor-superficie);
+  border-radius: var(--raio-medio);
+  box-shadow: var(--sombra-suave);
+  border: 1px solid var(--cor-borda);
+}
+.etiqueta {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  background: var(--cor-primaria-suave);
+  color: var(--cor-primaria-escura);
+}
+.etiqueta--sucesso {
+  background: color-mix(in srgb, var(--cor-sucesso) 16%, var(--cor-superficie));
+  color: var(--cor-sucesso);
+}
+.etiqueta--aviso {
+  background: color-mix(in srgb, var(--cor-aviso) 20%, var(--cor-superficie));
+  color: color-mix(in srgb, var(--cor-aviso) 70%, black);
+}
+.etiqueta--perigo {
+  background: color-mix(in srgb, var(--cor-perigo) 15%, var(--cor-superficie));
+  color: var(--cor-perigo);
+}
+.faixa {
+  padding: var(--e3) var(--e4);
+  border-radius: var(--raio-pequeno);
+  font-size: 0.95rem;
+  border: 1px solid transparent;
+}
+.faixa--erro {
+  background: color-mix(in srgb, var(--cor-perigo) 12%, var(--cor-superficie));
+  border-color: color-mix(in srgb, var(--cor-perigo) 35%, transparent);
+  color: color-mix(in srgb, var(--cor-perigo) 80%, black);
+}
+.faixa--aviso {
+  background: color-mix(in srgb, var(--cor-aviso) 16%, var(--cor-superficie));
+  border-color: color-mix(in srgb, var(--cor-aviso) 40%, transparent);
+}
+.faixa--sucesso {
+  background: color-mix(in srgb, var(--cor-sucesso) 13%, var(--cor-superficie));
+  border-color: color-mix(in srgb, var(--cor-sucesso) 35%, transparent);
+}
+.vazio {
+  text-align: center;
+  color: var(--cor-texto-suave);
+  padding: var(--e6) var(--e4);
+}
+
+/* ---------- janela modal / folha inferior ---------- */
+.fundo-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: var(--e4);
+  background: rgb(30 16 10 / 55%);
+  backdrop-filter: blur(3px);
+  animation: aparecer 0.15s ease-out;
+}
+.modal {
+  width: min(480px, 100%);
+  max-height: 90vh;
+  overflow: auto;
+  padding: var(--e5);
+  background: var(--cor-superficie);
+  border-radius: var(--raio-grande);
+  box-shadow: var(--sombra-media);
+  animation: subir 0.2s ease-out;
+}
+.modal h2 {
+  font-size: 1.3rem;
+  margin-bottom: var(--e3);
+}
+.modal__acoes {
+  display: flex;
+  gap: var(--e3);
+  justify-content: flex-end;
+  margin-top: var(--e5);
+  flex-wrap: wrap;
+}
+
+/* ---------- avisos (toasts) ---------- */
+.avisos {
+  position: fixed;
+  left: 50%;
+  bottom: calc(var(--e4) + env(safe-area-inset-bottom));
+  transform: translateX(-50%);
+  z-index: 80;
+  display: grid;
+  gap: var(--e2);
+  width: min(440px, calc(100% - 32px));
+  pointer-events: none;
+}
+.aviso {
+  padding: var(--e3) var(--e4);
+  border-radius: var(--raio-medio);
+  background: var(--cor-destaque);
+  color: #fff;
+  box-shadow: var(--sombra-media);
+  animation: subir 0.2s ease-out;
+}
+.aviso--sucesso {
+  background: var(--cor-sucesso);
+}
+.aviso--erro {
+  background: var(--cor-perigo);
+}
+
+.girando {
+  width: 28px;
+  height: 28px;
+  margin: var(--e5) auto;
+  border: 4px solid var(--cor-borda);
+  border-top-color: var(--cor-primaria);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+@keyframes aparecer {
+  from { opacity: 0; }
+}
+@keyframes subir {
+  from { opacity: 0; transform: translateY(14px); }
+}
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}

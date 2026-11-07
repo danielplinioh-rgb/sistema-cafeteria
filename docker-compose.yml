@@ -1,0 +1,46 @@
+# Sobe o sistema completo:  docker compose --env-file .env up --build
+#   Cliente (celular):  http://<IP-ou-domínio>/          Colaborador (desktop):  http://<IP-ou-domínio>/painel/
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: cafeteria_db
+      POSTGRES_USER: cafeteria_admin          # dono do banco (só usado na criação)
+      POSTGRES_PASSWORD: ${DB_ADMIN_SENHA:?defina DB_ADMIN_SENHA no .env}
+      APP_DB_SENHA: ${DB_APP_SENHA:?defina DB_APP_SENHA no .env}
+      CARREGAR_DADOS_DEMO: ${CARREGAR_DADOS_DEMO:-false}
+    volumes:
+      - dados-banco:/var/lib/postgresql/data
+      - ./banco:/banco:ro
+      - ./docker/db/inicializar.sh:/docker-entrypoint-initdb.d/00-inicializar.sh:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cafeteria_admin -d cafeteria_db"]
+      interval: 5s
+      retries: 10
+    # o banco NÃO é publicado no host: só o back-end o acessa pela rede interna
+
+  api:
+    build: ./backend
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/cafeteria_db
+      DB_USUARIO: cafeteria_app               # papel de privilégio mínimo
+      DB_SENHA: ${DB_APP_SENHA}
+      APP_CONFIAR_PROXY: "true"               # atrás do nginx do projeto
+      APP_COOKIE_SEGURO: ${COOKIE_SEGURO:-false}   # true quando houver HTTPS
+    expose: ["8080"]
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile.web
+    depends_on: [api]
+    ports:
+      - "${PORTA_WEB:-80}:80"
+    volumes:
+      # Imagens e tema editáveis SEM recompilar: altere os arquivos desta pasta e recarregue a página.
+      - ./frontend/publico:/publico:ro
+
+volumes:
+  dados-banco:
